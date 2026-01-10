@@ -3,7 +3,7 @@ spring:
     name: markly-backend
 
   mongodb:
-    uri: {MONGODB_URI}
+    uri: ""
     database: markly
 
 server:

@@ -33,6 +33,6 @@ build/
 .vscode/
 
 ### Backend ###
-.env
+application-local.yaml
 
 
