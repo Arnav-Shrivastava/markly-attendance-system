@@ -5,9 +5,12 @@ import com.markly.backend.model.AttendanceStatus;
 import com.markly.backend.security.JwtService;
 import com.markly.backend.service.AttendanceService;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/attendance")
@@ -58,4 +61,14 @@ public class AttendanceController {
 
         return attendanceService.getAttendanceForStudent(studentEmail);
     }
+
+    @GetMapping("/percentage/subject")
+    public Map<String, Object> subjectAttendance(
+            @RequestParam String subject,
+            @AuthenticationPrincipal UserDetails userDetails) {
+
+        return attendanceService
+                .getSubjectAttendancePercentage(userDetails.getUsername(), subject);
+    }
+
 }

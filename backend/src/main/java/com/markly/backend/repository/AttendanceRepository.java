@@ -18,4 +18,6 @@ public interface AttendanceRepository extends MongoRepository<Attendance, String
 
     // 🔹 Get all attendance records of a student
     List<Attendance> findByStudentEmail(String studentEmail);
+    List<Attendance> findByStudentEmailAndSubject(String studentEmail, String subject);
+
 }

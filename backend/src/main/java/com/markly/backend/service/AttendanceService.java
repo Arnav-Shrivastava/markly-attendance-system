@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class AttendanceService {
@@ -51,4 +53,26 @@ public class AttendanceService {
         // 3️⃣ Save to MongoDB
         return attendanceRepository.save(attendance);
     }
+
+    public Map<String, Object> getSubjectAttendancePercentage(String email, String subject) {
+
+        List<Attendance> records =
+                attendanceRepository.findByStudentEmailAndSubject(email, subject);
+
+        long total = records.size();
+        long present = records.stream()
+                .filter(a -> a.getStatus() == AttendanceStatus.PRESENT)
+                .count();
+
+        double percentage = total == 0 ? 0 : (present * 100.0) / total;
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("subject", subject);
+        response.put("totalClasses", total);
+        response.put("present", present);
+        response.put("percentage", percentage);
+
+        return response;
+    }
+
 }
